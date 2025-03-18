@@ -403,8 +403,8 @@ class Hub(DataUpdateCoordinator):
         for dev in self._devices:
             if dev["deviceId"] == self._deviceId:
                 for capability in dev["capabilities"]:
-                    if capabilityId == capability["capabilityId"]:
-                        return capability["value"]
+                    if isinstance(capability, dict) and capability.get("capabilityId") == capabilityId:
+                        return capability.get("value")
 
                 return defaultIfNotExist
 
