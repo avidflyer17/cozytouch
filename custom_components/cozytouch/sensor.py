@@ -713,6 +713,11 @@ class CozytouchProgSensor(CozytouchSensor):
             progList = json.loads(value)
 
             strValue = ""
+            # Avant de commencer l'itération, on vérifie que progList est bien une liste
+            if not isinstance(progList, list):
+                self.logger.error("Erreur : progList attendu sous forme de liste, mais obtenu: %s", progList)
+                # On peut ici décider de renvoyer une valeur par défaut ou interrompre le traitement
+                return None
             for prog in progList:
                 if len(prog) >= 2 and (prog[0] != 0 or prog[1] != 0):
                     hours = int(prog[0] / 60)
