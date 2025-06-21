@@ -1,56 +1,56 @@
 # Atlantic Cozytouch
 
-This Home Assistant integration connects to the Atlantic **Cozytouch** cloud. It allows controlling boilers, heat pumps and other appliances that use the Cozytouch service (different from the official Overkiz integration).
+Cette intégration Home Assistant se connecte au cloud **Cozytouch** d'Atlantic. Elle permet de contrôler les chaudières, pompes à chaleur et autres appareils compatibles avec le service Cozytouch (différent de l'intégration Overkiz officielle) 😊.
 
-## Features
+## Fonctionnalités
 
-- Cloud polling using Atlantic's API
-- Climate entities with HVAC and fan modes
-- Sensors for temperatures, power and diagnostic values
-- Numbers, selects, time and switch entities
-- Away mode scheduling and control
-- Optional JSON logging for debugging
-- Option to create entities for unknown capabilities
+- Interrogation du cloud via l'API d'Atlantic ☁️
+- Entités climatiques avec modes HVAC et ventilateur 🌡️
+- Capteurs pour températures, puissance et valeurs de diagnostic 📊
+- Entités de type nombre, sélection, horaire et interrupteur 🔘
+- Programmation et gestion du mode absence 🗓️
+- Journalisation JSON optionnelle pour le débogage 🐞
+- Option pour créer des entités pour les capacités inconnues 🔍
 
-## Supported devices
+## Appareils pris en charge
 
-The integration has been validated with:
-- **Atlantic Naema 2 Micro 25** gas boiler with a **Navilink Radio‑Connect 128** thermostat
-- **Atlantic Naema 2 Duo 25** gas boiler with a **Navilink Radio‑Connect 128** thermostat
-- **Atlantic Naia 2 Micro 25** gas boiler with a **Navilink Radio‑Connect 128** thermostat
-- **Atlantic Loria Duo 6006 R32** heat pump with a **Navilink Radio‑Connect 128** thermostat
-- **Takao M3** air conditioning unit
-- **Kelud 1750W** towel rack
-- **Sauter Asama Connecté II Ventilo 1750W** towel rack
+L'intégration a été validée avec :
+- **Atlantic Naema 2 Micro 25** chaudière gaz avec thermostat **Navilink Radio‑Connect 128**
+- **Atlantic Naema 2 Duo 25** chaudière gaz avec thermostat **Navilink Radio‑Connect 128**
+- **Atlantic Naia 2 Micro 25** chaudière gaz avec thermostat **Navilink Radio‑Connect 128**
+- **Atlantic Loria Duo 6006 R32** pompe à chaleur avec thermostat **Navilink Radio‑Connect 128**
+- **Takao M3** unité de climatisation
+- **Kelud 1750W** sèche-serviettes
+- **Sauter Asama Connecté II Ventilo 1750W** sèche-serviettes
 
-Mapping is required for each model. Feel free to open an issue to help support additional devices.
+Un mappage est requis pour chaque modèle. N'hésitez pas à ouvrir une issue pour prendre en charge d'autres appareils.
 
 ## Installation
 
-You can install the integration via **HACS** or manually.
+Vous pouvez installer l'intégration via **HACS** ou manuellement.
 
 ### HACS
 
 [![Add HACS repository.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=avidflyer17&repository=cozytouch&category=integration)
 
-More information about HACS is available at [hacs.xyz](https://hacs.xyz/).
+Plus d'informations à propos de HACS sont disponibles sur [hacs.xyz](https://hacs.xyz/).
 
-### Manual
+### Manuel
 
-Clone this repository and copy `custom_components/cozytouch` into your Home Assistant configuration directory (for example: `config/custom_components/cozytouch`).
+Clonez ce dépôt et copiez `custom_components/cozytouch` dans votre dossier de configuration Home Assistant (par exemple : `config/custom_components/cozytouch`).
 
-Restart Home Assistant after copying the files.
+Redémarrez Home Assistant après avoir copié les fichiers 🔄.
 
 ## Configuration
 
-1. Go to **Settings → Devices & Services → Add integration**.
-2. Search for **Cozytouch** and select **Atlantic Cozytouch**.
-3. Enter your Cozytouch credentials.
-4. Pick the device you want to configure.
-5. Optionally enable **Create entities for unknown capabilities** and **Dump a JSON file with received data** for debugging.
+1. Allez dans **Réglages → Appareils et services → Ajouter une intégration**.
+2. Recherchez **Cozytouch** et sélectionnez **Atlantic Cozytouch**.
+3. Saisissez vos identifiants Cozytouch 🔑.
+4. Choisissez l'appareil que vous souhaitez configurer.
+5. Activez éventuellement **Créer des entités pour les capacités inconnues** et **Générer un fichier JSON avec les données reçues** pour le débogage.
 
-If the connection is successful, the selected device will appear with the available entities.
+Si la connexion réussit, l'appareil sélectionné apparaîtra avec les entités disponibles ✅.
 
-## Contributing
+## Contribuer
 
-Issues and pull requests are welcome. Please open an issue if your device requires additional mapping.
+Les issues et pull requests sont les bienvenues. Ouvrez une issue si votre appareil nécessite un mappage supplémentaire.
