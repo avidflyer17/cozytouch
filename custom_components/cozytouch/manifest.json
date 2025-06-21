@@ -1,10 +1,10 @@
 {
     "domain": "cozytouch",
     "name": "Atlantic Cozytouch",
-    "codeowners": ["@gduteil"],
+    "codeowners": ["@avidflyer17"],
     "config_flow": true,
-    "documentation": "https://github.com/gduteil/cozytouch",
+    "documentation": "https://github.com/avidflyer17/cozytouch",
     "iot_class": "cloud_polling",
-    "issue_tracker": "https://github.com/gduteil/cozytouch/issues",
+    "issue_tracker": "https://github.com/avidflyer17/cozytouch/issues",
     "version": "1.0.0"
 }

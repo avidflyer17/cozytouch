@@ -19,7 +19,7 @@ You can install it using HACS or manually.
 
 #### With HACS
 
-[![Add HACS repository.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gduteil&repository=cozytouch&category=integration)
+[![Add HACS repository.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=avidflyer17&repository=cozytouch&category=integration)
 
 More informations about HACS [here](https://hacs.xyz/).
 
