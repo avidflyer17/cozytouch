@@ -269,9 +269,11 @@ class Hub(DataUpdateCoordinator):
             ) as response:
                 try:
                     json_data = await response.json()
+                    if isinstance(json_data, dict) and "capabilities" in json_data:
+                        json_data = json_data.get("capabilities")
                     for dev in self._devices:
                         if dev["deviceId"] == self._deviceId:
-                            dev["capabilities"] = copy.deepcopy(json_data)
+                            dev["capabilities"] = copy.deepcopy(json_data or [])
                             break
 
                     if (
@@ -368,23 +370,26 @@ class Hub(DataUpdateCoordinator):
         for dev in self._devices:
             if dev["deviceId"] == deviceId:
                 modelInfos = get_model_infos(dev["modelId"])
-                for capability in dev["capabilities"]:
+                caps = dev.get("capabilities", [])
+                if isinstance(caps, dict):
+                    caps = caps.get("capabilities", [])
+                for capability in caps:
                     capability_infos = get_capability_infos(
                         modelInfos,
-                        capability["capabilityId"],
-                        capability["value"],
+                        capability.get("capabilityId"),
+                        capability.get("value"),
                     )
 
                     if capability_infos is None and self._create_unknown:
                         capability_infos = {
-                            "name": "Capability_" + str(capability["capabilityId"]),
+                            "name": "Capability_" + str(capability.get("capabilityId")),
                             "type": "string",
                             "category": "diag",
                         }
 
                     if capability_infos is not None and len(capability_infos) > 0:
                         capability_infos["deviceId"] = deviceId
-                        capability_infos["capabilityId"] = capability["capabilityId"]
+                        capability_infos["capabilityId"] = capability.get("capabilityId")
 
                         capabilities.append(capability_infos)
 
@@ -402,9 +407,12 @@ class Hub(DataUpdateCoordinator):
         """Get value for a device capability."""
         for dev in self._devices:
             if dev["deviceId"] == self._deviceId:
-                for capability in dev["capabilities"]:
-                    if capabilityId == capability["capabilityId"]:
-                        return capability["value"]
+                caps = dev.get("capabilities", [])
+                if isinstance(caps, dict):
+                    caps = caps.get("capabilities", [])
+                for capability in caps:
+                    if capabilityId == capability.get("capabilityId"):
+                        return capability.get("value")
 
                 return defaultIfNotExist
 
@@ -418,8 +426,11 @@ class Hub(DataUpdateCoordinator):
         if self.online:
             for dev in self._devices:
                 if dev["deviceId"] == self._deviceId:
-                    for capability in dev["capabilities"]:
-                        if capabilityId == capability["capabilityId"]:
+                    caps = dev.get("capabilities", [])
+                    if isinstance(caps, dict):
+                        caps = caps.get("capabilities", [])
+                    for capability in caps:
+                        if capabilityId == capability.get("capabilityId"):
                             if self._test_load:
                                 capability["value"] = value
                             else:
