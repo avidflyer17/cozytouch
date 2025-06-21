@@ -137,7 +137,15 @@ class Hub(DataUpdateCoordinator):
                     COZYTOUCH_ATLANTIC_API + "/magellan/cozytouch/setupview",
                     headers=headers,
                 ) as response:
-                    json_data = await response.json()
+                    try:
+                        json_data = await response.json()
+                    except ContentTypeError as err:
+                        _LOGGER.warning("Invalid response for setup view: %s", err)
+                        raise CannotConnect from err
+
+                    if not isinstance(json_data, list) or len(json_data) == 0:
+                        _LOGGER.warning("Unexpected setup response: %s", str(json_data))
+                        raise CannotConnect
 
                     # Store setup
                     for key in (
