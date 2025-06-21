@@ -1,7 +1,7 @@
 """Switches for Atlantic Cozytouch integration."""
 from __future__ import annotations
 
-from datetime import datetime, time
+from datetime import datetime
 import logging
 
 from homeassistant.components.switch import SwitchDeviceClass, SwitchEntity
