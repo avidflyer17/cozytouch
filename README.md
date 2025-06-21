@@ -1,45 +1,56 @@
-# Cozytouch
-This is an Atlantic Cozytouch cloud integration. Atlantic use multiple protocols, in my case the protocol is different than the one implemented by official integration (overkiz).
+# Atlantic Cozytouch
 
-This has been tested using on : 
-  - `Atlantic Naema 2 Micro 25` gas boiler using a `Ǹavilink Radio-Connect 128` thermostat
-  - `Atlantic Naema 2 Duo 25` gas boiler using a `Ǹavilink Radio-Connect 128` thermostat
-  - `Atlantic Naia 2 Micro 25` gas boiler using a `Ǹavilink Radio-Connect 128` thermostat
-  - `Atlantic Loria Duo 6006 R32` heat pump using a `Navilink Radio-Connect 128` thermostat
-  - `Takao M3` air conditionning
-  - `Kelud 1750W` towel rack
-  - `Sauter Asama Connecté II Ventilo 1750W` towel rack
+This Home Assistant integration connects to the Atlantic **Cozytouch** cloud. It allows controlling boilers, heat pumps and other appliances that use the Cozytouch service (different from the official Overkiz integration).
 
-A special mapping needs to be done for each model type, feel free to create an issue to help supporting your device.
+## Features
 
+- Cloud polling using Atlantic's API
+- Climate entities with HVAC and fan modes
+- Sensors for temperatures, power and diagnostic values
+- Numbers, selects, time and switch entities
+- Away mode scheduling and control
+- Optional JSON logging for debugging
+- Option to create entities for unknown capabilities
+
+## Supported devices
+
+The integration has been validated with:
+- **Atlantic Naema 2 Micro 25** gas boiler with a **Navilink Radio‑Connect 128** thermostat
+- **Atlantic Naema 2 Duo 25** gas boiler with a **Navilink Radio‑Connect 128** thermostat
+- **Atlantic Naia 2 Micro 25** gas boiler with a **Navilink Radio‑Connect 128** thermostat
+- **Atlantic Loria Duo 6006 R32** heat pump with a **Navilink Radio‑Connect 128** thermostat
+- **Takao M3** air conditioning unit
+- **Kelud 1750W** towel rack
+- **Sauter Asama Connecté II Ventilo 1750W** towel rack
+
+Mapping is required for each model. Feel free to open an issue to help support additional devices.
 
 ## Installation
 
-You can install it using HACS or manually.
+You can install the integration via **HACS** or manually.
 
-#### With HACS
+### HACS
 
 [![Add HACS repository.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=avidflyer17&repository=cozytouch&category=integration)
 
-More informations about HACS [here](https://hacs.xyz/).
+More information about HACS is available at [hacs.xyz](https://hacs.xyz/).
 
-#### Manually
+### Manual
 
-Clone this repository and copy `custom_components/cozytouch` to your Home Assistant config durectory (ex : `config/custom_components/cozytouch`)
+Clone this repository and copy `custom_components/cozytouch` into your Home Assistant configuration directory (for example: `config/custom_components/cozytouch`).
 
-Restart Home Assistant.
+Restart Home Assistant after copying the files.
 
 ## Configuration
 
-Once your Home Assistant has restarted, go to `Settings -> Devices & Services -> Add an  integration`.
+1. Go to **Settings → Devices & Services → Add integration**.
+2. Search for **Cozytouch** and select **Atlantic Cozytouch**.
+3. Enter your Cozytouch credentials.
+4. Pick the device you want to configure.
+5. Optionally enable **Create entities for unknown capabilities** and **Dump a JSON file with received data** for debugging.
 
-Search for `cozytouch` and select the `Atlantic Cozytouch` integration.
+If the connection is successful, the selected device will appear with the available entities.
 
-Enter your Cozytouch credentials.
+## Contributing
 
-If connection is working, you should have a list of devices configured on your account.
-
-Select the device you want to add.
-
-Only some values are mapped for now, you can select `Create entities for unknown capabilities` if you want to add all detected capabilities (this can be useful to help mapping).
-
+Issues and pull requests are welcome. Please open an issue if your device requires additional mapping.
