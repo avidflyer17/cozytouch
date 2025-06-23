@@ -8,8 +8,10 @@ Mandatory :
 
 Optional :
     * currentTemperatureAvailable : enable current temperature availability (default : True)
-    * currentTemperatureAvailableZ1 : enable current temperature availability for Z1 (used for HEAT_PUMP, default : True)
-    * currentTemperatureAvailableZ2 : enable current temperature availability for Z2 (used for HEAT_PUMP, default : True)
+    * currentTemperatureAvailableZ1 : enable current temperature availability for
+      Z1 (used for HEAT_PUMP, default : True)
+    * currentTemperatureAvailableZ2 : enable current temperature availability for
+      Z2 (used for HEAT_PUMP, default : True)
     * exhaustTemperatureAvailable : enable exhaust temperature availability (default : True)
     * fanModes : list of value/mode pairs
     * swingModes : list of value/mode pairs

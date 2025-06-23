@@ -108,7 +108,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"
 
-        # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
+        # If there is no user input or there were errors,
+        # show the form again, including any errors that were found
+        # with the input.
         user_schema = vol.Schema(
             {vol.Required("username"): str, vol.Required("password"): str}
         )
