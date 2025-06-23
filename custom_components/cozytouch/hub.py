@@ -165,7 +165,9 @@ class Hub(DataUpdateCoordinator):
                             self._setup[key] = copy.deepcopy(json_data[0][key])
 
                     # Update devices infos
-                    await asyncio.get_event_loop().run_in_executor(None, self.update_devices_from_json_data, json_data)
+                    await asyncio.to_thread(
+                        self.update_devices_from_json_data, json_data
+                    )
 
                     # Store country to retrieve localization informations
                     if "address" in json_data[0]:
