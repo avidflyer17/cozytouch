@@ -9,6 +9,7 @@ import json
 import logging
 
 from aiohttp import ClientSession, ContentTypeError, FormData
+import aiofiles
 
 from homeassistant import exceptions
 from homeassistant.core import HomeAssistant
@@ -77,15 +78,17 @@ class Hub(DataUpdateCoordinator):
 
         # Load json for test during dev
         self._test_load = False
-        if self._test_load:
-            self._dump_json = False
+
+    async def _load_test_data(self) -> None:
+        """Load devices from local JSON for development."""
+        file_path = self._hass.config.config_dir + "/cozytouch_eoras2.json"
+        try:
+            async with aiofiles.open(file_path, encoding="utf-8") as json_file:
+                file_contents = await json_file.read()
+            await self.update_devices_from_json_data(json.loads(file_contents))
             self.online = True
-            with open(
-                self._hass.config.config_dir + "/cozytouch_eoras2.json",
-                encoding="utf-8",
-            ) as json_file:
-                file_contents = json_file.read()
-                self.update_devices_from_json_data(json.loads(file_contents))
+        except FileNotFoundError:
+            _LOGGER.warning("Test JSON file not found: %s", file_path)
 
     @property
     def hub_id(self) -> str:
@@ -99,6 +102,10 @@ class Hub(DataUpdateCoordinator):
 
     async def connect(self) -> bool:
         """Connect to Cozytouch server."""
+        if self._test_load:
+            await self._load_test_data()
+            return self.online
+
         if self.online is False:
             try:
                 async with self._session.post(
@@ -165,7 +172,7 @@ class Hub(DataUpdateCoordinator):
                             self._setup[key] = copy.deepcopy(json_data[0][key])
 
                     # Update devices infos
-                    await asyncio.get_event_loop().run_in_executor(None, self.update_devices_from_json_data, json_data)
+                    await self.update_devices_from_json_data(json_data)
 
                     # Store country to retrieve localization informations
                     if "address" in json_data[0]:
@@ -188,15 +195,17 @@ class Hub(DataUpdateCoordinator):
         """Close session."""
         await self._session.close()
 
-    def update_devices_from_json_data(self, json_data) -> None:
+    async def update_devices_from_json_data(self, json_data) -> None:
         """Update the devices list."""
 
         if self._dump_json:
-            with open(
-                self._hass.config.config_dir + "/Cozytouch.json", "w", encoding="utf-8"
+            json_object = json.dumps(json_data, indent=4)
+            async with aiofiles.open(
+                self._hass.config.config_dir + "/Cozytouch.json",
+                "w",
+                encoding="utf-8",
             ) as outfile:
-                json_object = json.dumps(json_data, indent=4)
-                outfile.write(json_object)
+                await outfile.write(json_object)
 
         # Get zones
         if len(self._zones) == 0 and "zones" in json_data[0]:
