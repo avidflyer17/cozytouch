@@ -116,7 +116,14 @@ class Hub(DataUpdateCoordinator):
                         "Content-Type": "application/x-www-form-urlencoded",
                     },
                 ) as response:
-                    token = await response.json()
+                    if response.status != 200:
+                        _LOGGER.warning("Token request failed: %s", response.status)
+                        raise CannotConnect
+                    try:
+                        token = await response.json()
+                    except ContentTypeError as err:
+                        _LOGGER.warning("Invalid token response: %s", err)
+                        raise CannotConnect from err
 
                     if "error" in token and token["error"] == "invalid_grant":
                         raise CannotConnect
@@ -137,10 +144,17 @@ class Hub(DataUpdateCoordinator):
                     COZYTOUCH_ATLANTIC_API + "/magellan/cozytouch/setupview",
                     headers=headers,
                 ) as response:
+                    if response.status != 200:
+                        _LOGGER.warning(
+                            "Setup view request failed: %s", response.status
+                        )
+                        raise CannotConnect
                     try:
                         json_data = await response.json()
                     except ContentTypeError as err:
-                        _LOGGER.warning("Invalid response for setup view: %s", err)
+                        _LOGGER.warning(
+                            "Invalid response for setup view: %s", err
+                        )
                         raise CannotConnect from err
 
                     if not isinstance(json_data, list) or len(json_data) == 0:
