@@ -179,7 +179,9 @@ class Hub(DataUpdateCoordinator):
                             self._setup[key] = copy.deepcopy(json_data[0][key])
 
                     # Update devices infos
-                    await asyncio.get_event_loop().run_in_executor(None, self.update_devices_from_json_data, json_data)
+                    await asyncio.get_event_loop().run_in_executor(
+                        None, self.update_devices_from_json_data, json_data
+                    )
 
                     # Store country to retrieve localization informations
                     if "address" in json_data[0]:
@@ -298,7 +300,46 @@ class Hub(DataUpdateCoordinator):
                 headers=headers,
             ) as response:
                 try:
-                    json_data = await response.json()
+                    if response.status in (401, 403):
+                        _LOGGER.info("Token invalid, trying to refresh")
+                        await self.connect()
+                        if not self.online:
+                            return
+                        headers = {
+                            "Authorization": f"Bearer {self._access_token}",
+                            "Content-Type": "application/json",
+                        }
+                        async with self._session.get(
+                            COZYTOUCH_ATLANTIC_API
+                            + "/magellan/capabilities/?deviceId="
+                            + str(self._deviceId),
+                            headers=headers,
+                        ) as retry_response:
+                            response = retry_response
+                            json_data = await response.json()
+                    else:
+                        json_data = await response.json()
+                        if (
+                            isinstance(json_data, dict)
+                            and json_data.get("error") == "invalid_grant"
+                        ):
+                            _LOGGER.info("Token invalid_grant, trying to refresh")
+                            await self.connect()
+                            if not self.online:
+                                return
+                            headers = {
+                                "Authorization": f"Bearer {self._access_token}",
+                                "Content-Type": "application/json",
+                            }
+                            async with self._session.get(
+                                COZYTOUCH_ATLANTIC_API
+                                + "/magellan/capabilities/?deviceId="
+                                + str(self._deviceId),
+                                headers=headers,
+                            ) as retry_response:
+                                response = retry_response
+                                json_data = await response.json()
+
                     if not isinstance(json_data, list):
                         _LOGGER.warning(
                             "Invalid capabilities response for device %s: %s",
