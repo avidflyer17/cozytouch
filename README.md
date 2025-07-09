@@ -11,6 +11,7 @@ Cette intégration Home Assistant se connecte au cloud **Cozytouch** d'Atlantic.
 - Programmation et gestion du mode absence 🗓️
 - Journalisation JSON optionnelle pour le débogage 🐞
 - Option pour créer des entités pour les capacités inconnues 🔍
+- Gestion améliorée des erreurs de connexion 🔒
 
 ## Appareils pris en charge
 
